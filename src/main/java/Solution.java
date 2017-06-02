@@ -12,7 +12,7 @@ public class Solution {
 
         //MY CODE START
         //PLAN: 1. take input
-        // 2. create maps and arrays Q: make objects that first store input, then call methods to do calc's?
+        // 2. create maps and arraylists Q: make objects that first store input, then call methods to do calc's?
         // 3. do calc's
         //
         // FIRST IDEA:
