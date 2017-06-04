@@ -11,15 +11,79 @@ public class Solution {
         /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
 
         //MY CODE START
-        //PLAN: 1. take input
-        // 2. create maps and arraylists Q: make objects that first store input, then call methods to do calc's?
-        // 3. do calc's
-        //
-        // FIRST IDEA:
-        //check if quantities are already equal.
-        //(find highest quantity of candies. give all others 1.) if not all equal, repeat. keep track of consecutive adds for each. divide consecutive adds by 5. (note) divide remainder by 3. (note) note remainder. add noted values.
-        //HOW: make map where key is a through z (for n), value is an arraylist whose zeroth element is the original quantity of candies, subsequent elements are counts of consecutive times that the other elements were increased by 1.
-        //do division on first through n'th elements in each arraylist, store results in an new int[3] where int[0] = division by 5, int[1] = division by 3, int[2] = remainder after.
+        //get input
+        Scanner scan = new Scanner(System.in);
+        //make container of arrays based on 'test case' first integer?
+
+        class CaptureInput{
+            //make scanner
+            Scanner scan = new Scanner(System.in);
+            //scan quantityOfTestCases
+            int quantityOfTestCases = scan.nextInt();
+            //make method to make and fill an array based on input
+            public void captureSingleTestCaseInput(){
+                int sizeOfTestCase = scan.nextInt();
+                int[] testCase = new int[sizeOfTestCase];
+                while(sizeOfTestCase > 0){
+                    testCase[sizeOfTestCase] = scan.nextInt();
+                    sizeOfTestCase--;
+                }
+            }
+        }
+
+        class FinderOfMinimumDistributionIterations
+        {
+            int minimumTotalIterationsOfFiveOrThreeOrOne = 0;
+            int distributionsOfOnePerIteration = 0;
+            int[] quantitiesPerCoworker;
+
+            public void setMinimumTotalIterationsOfFiveOrThreeOrOne()
+            {
+                //sort quantitiesPerCoworker so that the greatest is always at the end.
+                Arrays.sort(quantitiesPerCoworker);
+                if (isEquallyDistributed())
+                {
+                    return;
+                } else
+                {
+                    distributeAndCount();
+                    setMinimumTotalIterationsOfFiveOrThreeOrOne();
+                }
+            }
+
+            public boolean isEquallyDistributed()
+            {
+                return (quantitiesPerCoworker[0] == quantitiesPerCoworker[quantitiesPerCoworker.length - 1]);
+            }
+
+            public void distributeAndCount()
+            {
+                while (quantitiesPerCoworker[0] < quantitiesPerCoworker[quantitiesPerCoworker.length - 1])
+                {
+                    for (int i = 0; i < quantitiesPerCoworker.length - 1; i++)
+                    {
+                        quantitiesPerCoworker[i] += 1;
+                    }
+                    distributionsOfOnePerIteration++;
+                }
+                divideToFindMinimumIterationsOfFiveOrThreeOrOne();
+                distributionsOfOnePerIteration = 0;
+            }
+
+            public void divideToFindMinimumIterationsOfFiveOrThreeOrOne()
+            {
+                minimumTotalIterationsOfFiveOrThreeOrOne += distributionsOfOnePerIteration / 5;
+                minimumTotalIterationsOfFiveOrThreeOrOne += distributionsOfOnePerIteration % 5 / 3;
+                minimumTotalIterationsOfFiveOrThreeOrOne += distributionsOfOnePerIteration % 5 % 3;
+            }
+
+            public int getMinimumTotalIterationsOfFiveOrThreeOrOne(int[] quantitiesPerCoworker)
+            {
+                this.quantitiesPerCoworker = quantitiesPerCoworker;
+                setMinimumTotalIterationsOfFiveOrThreeOrOne();
+                return minimumTotalIterationsOfFiveOrThreeOrOne;
+            }
+        }
 
         //MY CODE END
     }
